@@ -1,11 +1,15 @@
 package com.tistory.jaimemin.springdatajpaproject.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 
 @Getter
 @Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address {
 
     private String city;
