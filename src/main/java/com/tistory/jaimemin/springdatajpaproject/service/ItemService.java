@@ -1,5 +1,6 @@
 package com.tistory.jaimemin.springdatajpaproject.service;
 
+import com.tistory.jaimemin.springdatajpaproject.domain.item.Book;
 import com.tistory.jaimemin.springdatajpaproject.domain.item.Item;
 import com.tistory.jaimemin.springdatajpaproject.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,24 @@ public class ItemService {
     @Transactional
     public void saveItem(Item item) {
         itemRepository.save(item);
+    }
+
+    /**
+     * 아이템 업데이트 (변경 감지 기능)
+     *
+     * @param itemId
+     * @param name
+     * @param price
+     * @param stockQuantity
+     */
+    @Transactional
+    public void updateItem(Long itemId, String name, int price, int stockQuantity) {
+        Item findItem = itemRepository.findOne(itemId);
+        findItem.setName(name);
+        findItem.setPrice(price);
+        findItem.setStockQuantity(stockQuantity);
+
+        // 영속 상태이기 때문에 굳이 save 메서드 호출할 필요 없음 (트랜잭션이 끝난 시점에 flush)
     }
 
     /**
