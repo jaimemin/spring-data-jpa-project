@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -63,13 +64,34 @@ public class OrderApiController {
 
     /**
      * Collection Join에 의해 데이터 뻥튀기 되는 문제 존재
+     *
      * @XToMany에 대한 FETCH JOIN문의 문제점
+     * 1. 페이징 불가능!!
+     * 2. 컬렉션 패치 조인은 1개만 사용 가능
+     * -> 컬렉션 둘 이상에 FETCH JOIN을 사용하면 데이터 정합성 깨질 우려 있음
      * 
      * @return
      */
     @GetMapping("/api/v3/orders")
     public List<OrderDto> ordersV3() {
         return orderRepository.findAllWithItem().stream()
+                .map(OrderDto::new)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 성능 최적화
+     * 1. XToOne 관계는 모두 Fetch Join으로 가져옴
+     * 2. XToMany 관계는 application.yml 내 default_batch_fetch_size를 통해 미리 로딩하여 1 : N : N 관계를 1 : 1 : 1 관계로 변환
+     *
+     * -> 중복 데이터 배제
+     *
+     * @return
+     */
+    @GetMapping("/api/v3.1/orders")
+    public List<OrderDto> ordersV3Page(@RequestParam(defaultValue = "0") int offset
+            , @RequestParam(defaultValue = "100") int limit) {
+        return orderRepository.findAllWithMemberDelivery(offset, limit).stream()
                 .map(OrderDto::new)
                 .collect(Collectors.toList());
     }

@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -74,18 +75,38 @@ public class OrderRepository {
     }
 
     /**
+     * XToOne 관계 FETCH JOIN Paging
+     *
+     * @param offset
+     * @param limit
+     * @return
+     */
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return entityManager.createQuery(
+                        "SELECT o FROM Order o " +
+                                "JOIN FETCH o.member m " +
+                                "JOIN FETCH o.delivery d", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    /**
      * FETCH JOIN
      * ORDER와 ORDER_ITEMS JOIN할 경우 데이터 뻥튀기 되는 문제
+     * ORDER_ITEMS를 기준으로 ORDER 데이터가 늘어나는 문제
+     * 우리의 목표는 ORDER를 기준으로 페이징
      *
      * @return
      */
     public List<Order> findAllWithItem() {
         return entityManager.createQuery(
-                "SELECT o FROM Order o " +
-                        "JOIN FETCH o.member m " +
-                        "JOIN FETCH o.delivery d " +
-                        "JOIN FETCH o.orderItems oi " +
-                        "JOIN FETCH oi.item i", Order.class)
+                        "SELECT o FROM Order o " +
+                                "JOIN FETCH o.member m " +
+                                "JOIN FETCH o.delivery d " +
+                                "JOIN FETCH o.orderItems oi " +
+                                "JOIN FETCH oi.item i", Order.class)
                 .getResultList();
     }
+
 }
