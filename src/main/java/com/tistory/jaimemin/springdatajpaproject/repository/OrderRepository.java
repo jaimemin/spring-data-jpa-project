@@ -73,4 +73,19 @@ public class OrderRepository {
         ).getResultList();
     }
 
+    /**
+     * FETCH JOIN
+     * ORDER와 ORDER_ITEMS JOIN할 경우 데이터 뻥튀기 되는 문제
+     *
+     * @return
+     */
+    public List<Order> findAllWithItem() {
+        return entityManager.createQuery(
+                "SELECT o FROM Order o " +
+                        "JOIN FETCH o.member m " +
+                        "JOIN FETCH o.delivery d " +
+                        "JOIN FETCH o.orderItems oi " +
+                        "JOIN FETCH oi.item i", Order.class)
+                .getResultList();
+    }
 }
