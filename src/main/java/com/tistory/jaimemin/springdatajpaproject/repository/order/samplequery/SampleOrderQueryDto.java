@@ -1,7 +1,6 @@
-package com.tistory.jaimemin.springdatajpaproject.repository.order.queryrepository;
+package com.tistory.jaimemin.springdatajpaproject.repository.order.samplequery;
 
 import com.tistory.jaimemin.springdatajpaproject.domain.Address;
-import com.tistory.jaimemin.springdatajpaproject.domain.Order;
 import com.tistory.jaimemin.springdatajpaproject.domain.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;

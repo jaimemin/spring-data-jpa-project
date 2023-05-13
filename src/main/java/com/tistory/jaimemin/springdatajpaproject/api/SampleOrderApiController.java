@@ -5,8 +5,8 @@ import com.tistory.jaimemin.springdatajpaproject.domain.Order;
 import com.tistory.jaimemin.springdatajpaproject.domain.OrderStatus;
 import com.tistory.jaimemin.springdatajpaproject.repository.OrderRepository;
 import com.tistory.jaimemin.springdatajpaproject.repository.OrderSearch;
-import com.tistory.jaimemin.springdatajpaproject.repository.order.queryrepository.OrderQueryRepository;
-import com.tistory.jaimemin.springdatajpaproject.repository.order.queryrepository.SampleOrderQueryDto;
+import com.tistory.jaimemin.springdatajpaproject.repository.order.samplequery.SampleOrderQueryRepository;
+import com.tistory.jaimemin.springdatajpaproject.repository.order.samplequery.SampleOrderQueryDto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,7 @@ public class SampleOrderApiController {
 
     private final OrderRepository orderRepository;
 
-    private final OrderQueryRepository orderQueryRepository;
+    private final SampleOrderQueryRepository orderQueryRepository;
 
     @GetMapping("/api/v1/simple-orders")
     public List<Order> ordersV1() {

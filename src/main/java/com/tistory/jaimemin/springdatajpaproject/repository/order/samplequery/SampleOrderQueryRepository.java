@@ -1,4 +1,4 @@
-package com.tistory.jaimemin.springdatajpaproject.repository.order.queryrepository;
+package com.tistory.jaimemin.springdatajpaproject.repository.order.samplequery;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class OrderQueryRepository {
+public class SampleOrderQueryRepository {
 
     final EntityManager entityManager;
 
@@ -20,7 +20,7 @@ public class OrderQueryRepository {
      */
     public List<SampleOrderQueryDto> findOrderDtos() {
         return entityManager.createQuery(
-                "SELECT new com.tistory.jaimemin.springdatajpaproject.repository.SampleOrderQueryDto(o.id, m.name, o.orderDate, o.status, d.address) " +
+                "SELECT new com.tistory.jaimemin.springdatajpaproject.repository.order.samplequery.SampleOrderQueryDto(o.id, m.name, o.orderDate, o.status, d.address) " +
                         "FROM Order o " +
                         "JOIN o.member m " +
                         "JOIN o.delivery d", SampleOrderQueryDto.class
